@@ -8,6 +8,7 @@ $ () ->
   bg = new createjs.Shape()
   cover = new createjs.Shape()
   tiles = []
+  count = 0
   size = 0
   img = null
 
@@ -33,10 +34,13 @@ $ () ->
     stage.update()
 
   reset = () ->
+    count = 0
+
     bg.graphics.clear()
     cover.graphics.clear()
     stage.clear()
 
+    current.text count
     cover.cache 0, 0, width, height
     img.cache 0, 0, width, height
 
@@ -76,6 +80,8 @@ $ () ->
 
     coverGfx.f '#ffff00'
     coverGfx.dr tile[0], tile[1], size, size
+
+    current.text ++count
 
     updateFilter()
 
