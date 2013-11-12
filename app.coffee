@@ -1,8 +1,6 @@
 $ () ->
   picture = $ '#picture'
   target = $ '#target'
-  reset = $ '#reset'
-  increment = $ '#increment'
   current = $ '#current'
   height = picture.height()
   width = picture.width()
@@ -10,6 +8,7 @@ $ () ->
   bg = new createjs.Shape()
   cover = new createjs.Shape()
   tiles = []
+  size = 0
   img = null
 
   loadImage = () ->
@@ -51,10 +50,12 @@ $ () ->
     sqrt = Math.floor Math.sqrt target.val()
     total = Math.pow sqrt, 2
     tiles = new Array total
+    size = width / sqrt
 
     $.each tiles, (index) ->
-      # cheap and dirty, just like me
-      tiles[index] = index
+      x = (index % sqrt) * size
+      y = (Math.floor index / sqrt) * size
+      tiles[index] = [x, y]
 
     tiles = tiles.sort () ->
       .5 - Math.random()
@@ -69,13 +70,15 @@ $ () ->
 
     stage.update()
 
-  increment.click () ->
+  $('#increment').click () ->
     tile = tiles.pop()
     coverGfx = cover.graphics
 
     coverGfx.f '#ffff00'
-    coverGfx.dr 10, 10, 10, 10
+    coverGfx.dr tile[0], tile[1], size, size
 
     updateFilter()
+
+  $('#reset').click reset
 
   loadImage()
